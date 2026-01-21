@@ -1,4 +1,3 @@
-import React from 'react'
 import { Metadata } from "next";
 import Hero from '@/components/Home/Hero';
 import Help from '@/components/Home/Help';
@@ -19,8 +18,8 @@ export default function Home() {
       <Help />
       <Causes />
       <WhatsAppCTA />
-      {/* <Newsletter /> */}
+      <Newsletter />
       <Testimonial />
     </main>
-  )
+  );
 }
