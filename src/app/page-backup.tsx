@@ -1,3 +1,4 @@
+// Backup of original page.tsx
 import { Metadata } from "next";
 import Hero from '@/components/Home/Hero';
 import Help from '@/components/Home/Help';

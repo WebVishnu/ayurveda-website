@@ -3,7 +3,6 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  // Ensure proper routing
   trailingSlash: false,
 }
 

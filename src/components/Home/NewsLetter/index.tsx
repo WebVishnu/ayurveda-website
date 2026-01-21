@@ -3,7 +3,15 @@ import { getAllPosts } from "@/utils/markdown";
 import BlogCard from "./blogCard";
 
 const Newsletter = () => {
-    const posts = getAllPosts(["title", "date", "excerpt", "coverImage", "slug"]);
+    let posts: any[] = [];
+    
+    try {
+        posts = getAllPosts(["title", "date", "excerpt", "coverImage", "slug"]) || [];
+    } catch (error) {
+        console.error("Error loading blog posts:", error);
+        posts = [];
+    }
+
     return (
         <section className="lg:py-28 py-16 dark:bg-dark">
             <div className="container mx-auto lg:max-w-(--breakpoint-xl) px-4">
@@ -15,13 +23,19 @@ const Newsletter = () => {
                         Stay informed about Ayurveda, natural health, and wellness. Read our latest articles on traditional medicine, herbal remedies, and healthy living.
                     </p>
                 </div>
-                <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8">
-                    {posts.slice(0, 3).map((blog, i) => (
-                        <div key={i} data-aos="fade-up" data-aos-delay={`${i * 150}`} data-aos-duration="1000">
-                            <BlogCard blog={blog} />
-                        </div>
-                    ))}
-                </div>
+                {posts.length > 0 ? (
+                    <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8">
+                        {posts.slice(0, 3).map((blog, i) => (
+                            <div key={i} data-aos="fade-up" data-aos-delay={`${i * 150}`} data-aos-duration="1000">
+                                <BlogCard blog={blog} />
+                            </div>
+                        ))}
+                    </div>
+                ) : (
+                    <div className="text-center text-muted dark:text-white/60">
+                        <p>No blog posts available at the moment.</p>
+                    </div>
+                )}
                 <div className="text-center mt-12">
                     <Link href="/blog" className="text-error hover:text-warning text-base font-semibold inline-flex items-center gap-2">
                         View All Blogs
