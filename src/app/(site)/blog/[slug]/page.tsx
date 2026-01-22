@@ -5,6 +5,7 @@ import markdownToHtml from "@/utils/markdownToHtml";
 import { format } from "date-fns";
 import Image from "next/image";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 
 type Props = {
   params: { slug: string };
@@ -63,6 +64,14 @@ export async function generateMetadata({ params }: any) {
   }
 }
 
+// Generate static params for all blog posts at build time
+export async function generateStaticParams() {
+  const posts = getAllPosts(["slug"]);
+  return posts.map((post) => ({
+    slug: post.slug,
+  }));
+}
+
 export default async function Post({ params }: any) {
   const data = await params;
   const posts = getAllPosts(["title", "date", "excerpt", "coverImage", "slug"]);
@@ -74,6 +83,11 @@ export default async function Post({ params }: any) {
     "coverImage",
     "date",
   ]);
+
+  // If post doesn't exist, trigger Next.js 404 page
+  if (!post) {
+    notFound();
+  }
 
   const content = await markdownToHtml(post.content || "");
 

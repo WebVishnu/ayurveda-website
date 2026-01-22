@@ -2,6 +2,7 @@ import { getAllPosts, getPostBySlug } from "@/utils/markdown";
 import markdownToHtml from "@/utils/markdownToHtml";
 import { format } from "date-fns";
 import Image from "next/image";
+import { notFound } from "next/navigation";
 
 type Props = {
     params: { slug: string };
@@ -69,6 +70,11 @@ export default async function BlogHead({ params }: Props) {
         "coverImage",
         "date",
     ]);
+
+    // If post doesn't exist, trigger Next.js 404 page
+    if (!post) {
+        notFound();
+    }
 
     const content = await markdownToHtml(post.content || "");
 
